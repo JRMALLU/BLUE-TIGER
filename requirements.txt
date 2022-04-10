@@ -27,6 +27,7 @@ pypng
 Pillow
 wget
 aiofiles
+aiohttp
 psutil
 wheel
 humanize
