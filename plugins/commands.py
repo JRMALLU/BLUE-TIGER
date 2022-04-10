@@ -67,7 +67,7 @@ async def start(client, message):
         )
         await message.reply_chat_action("Typing")
         m=await message.reply_sticker("CAACAgUAAxkBAAEQ8XRiO8iXcdMUHwiie4V7IrblsmAAAQkAApwAA8iUZBRzjwAB89rFhfweBA") 
-        await asyncio.sleep(5)
+        await asyncio.sleep(1)
         await m.delete()
         return
     if AUTH_CHANNEL and not await is_subscribed(client, message):
@@ -110,7 +110,7 @@ async def start(client, message):
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
-            video=random.choice(PICS),
+            photo=random.choice(PICS),
             caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
             parse_mode='html'
@@ -220,15 +220,9 @@ async def start(client, message):
     if not files_:
         pre, file_id = ((base64.urlsafe_b64decode(data + "=" * (-len(data) % 4))).decode("ascii")).split("_", 1)
         try:
-            buttons = [[
-                InlineKeyboardButton('𝙳𝙴𝙻𝙴𝚃𝙴', callback_data='close_data'),
-                InlineKeyboardButton('📂𝐂𝐡𝐚𝐧𝐧𝐞𝐥📂', url='https://t.me/updatechannel_forcrime')
-            ]]
-            reply_markup = InlineKeyboardMarkup(buttons)
             msg = await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file_id,
-                reply_markup=reply_markup,
                 protect_content=True if pre == 'filep' else False,
                 )
             filetype = msg.media
@@ -258,15 +252,9 @@ async def start(client, message):
             f_caption=f_caption
     if f_caption is None:
         f_caption = f"{files.file_name}"
-    buttons = [[
-        InlineKeyboardButton('𝙳𝙴𝙻𝙴𝚃𝙴', callback_data='close_data'),
-        InlineKeyboardButton('📂𝐂𝐡𝐚𝐧𝐧𝐞𝐥📂', url='https://t.me/updatechannel_forcrime')
-    ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
     await client.send_cached_media(
         chat_id=message.from_user.id,
         file_id=file_id,
-        reply_markup=reply_markup,
         caption=f_caption,
         protect_content=True if pre == 'filep' else False,
         )
