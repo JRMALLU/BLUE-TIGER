@@ -13,3 +13,4 @@ Youtube_search
 youtube-search-python==1.4.6
 aiofiles
 aiohttp
+wget
