@@ -447,8 +447,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             ],[
             InlineKeyboardButton('𝚂𝙾𝙽𝙶', callback_data='songs'),
             ],[
-            InlineKeyboardButton('𝙷𝚘𝚖𝚎', callback_data='start'),
-            InlineKeyboardButton('𝚂𝚝𝚊𝚝𝚞𝚜', callback_data='stats')
+            InlineKeyboardButton('𝙷𝙾𝙼𝙴', callback_data='start'),
+            InlineKeyboardButton('𝚂𝚃𝙰𝚃𝚂', callback_data='stats')
         ]]
         reply1 = await query.message.reply_text(
             text="▢▢▢"
@@ -474,15 +474,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
     elif query.data == "about":
         buttons = [[
-            InlineKeyboardButton('𝚂𝚝𝚊𝚝𝚞𝚜', callback_data='stats'),
-            InlineKeyboardButton('𝚂𝚘𝚞𝚛𝚌𝚎', callback_data='source'),
+            InlineKeyboardButton('𝚂𝚃𝙰𝚃𝚂', callback_data='stats'),
+            InlineKeyboardButton('𝚂𝙾𝚄𝚁𝙲𝙴', callback_data='source'),
             ],[
-            InlineKeyboardButton('𝚂𝚎𝚊𝚛𝚌𝚑', switch_inline_query_current_chat=''),
+            InlineKeyboardButton('𝚂𝙴𝙰𝚁𝙲𝙷', switch_inline_query_current_chat=''),
             ],[
-            InlineKeyboardButton('𝙷𝚎𝚕𝚙', callback_data='help'),
+            InlineKeyboardButton('𝙷𝙴𝙻𝙿', callback_data='help'),
             ],[
-            InlineKeyboardButton('𝙱𝚊𝚌𝚔', callback_data='start'),
-            InlineKeyboardButton('✗ 𝙲𝚕𝚘𝚜𝚎 ✗', callback_data='close_data')
+            InlineKeyboardButton('𝙱𝙰𝙲𝙺', callback_data='start'),
+            InlineKeyboardButton('✗ 𝙲𝙻𝙾𝚂𝙴 ✗', callback_data='close_data')
         ]]
         reply1 = await query.message.reply_text(
             text="▢▢▢"
