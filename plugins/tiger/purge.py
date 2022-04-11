@@ -3,13 +3,14 @@ Syntax: .purge"""
 
 import asyncio
 from pyrogram import Client, filters
-from info import COMMAND_HAND_LER, TG_MAX_SELECT_LEN
+
 from plugins.helper_functions.admin_check import admin_check
 from plugins.helper_functions.cust_p_filters import f_onw_fliter
 
+TG_MAX_SELECT_LEN = 100
 
 @Client.on_message(
-    filters.command("purge", COMMAND_HAND_LER) &
+    filters.command("purge") &
     f_onw_fliter
 )
 async def purge(client, message):
