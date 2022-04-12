@@ -830,21 +830,25 @@ async def cb_handler(client: Client, query: CallbackQuery):
             parse_mode='html'
         )
     reply1 = await query.message.reply_text(
-            text="▢▢▢"
+            text="⭗ ⭗ ⭗ ⭗ ⭗ ⭗"
         )
         await asyncio.sleep(0.5)
         reply2 = await reply1.edit_text(
-            text="▣▢▢"
+            text="⦿ ⦿ ⦿ ⭗ ⭗ ⭗"
         )
         await asyncio.sleep(0.5)
         reply3 = await reply2.edit_text(
-            text="▣▣▢"
+            text="⦿ ⦿ ⦿ ⦿ ⭗ ⭗"
         )
         await asyncio.sleep(0.5)
         reply4 = await reply3.edit_text(
-            text="▣▣▣"
+            text="⦿ ⦿ ⦿ ⦿ ⦿ ⭗"
         )
-        await reply4.delete()
+        await asyncio.sleep(0.5)
+        reply5 = await reply4.edit_text(
+            text="⦿ ⦿ ⦿ ⦿ ⦿ ⦿"
+        )
+        await reply5.delete()
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
             text=script.BUTTON_TXT,
