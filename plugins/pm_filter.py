@@ -436,7 +436,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode='html'
         )
-        await query.answer('Piracy Is Crime')
+        await query.answer('𝗢𝗣𝗘𝗡 𝗛𝗘𝗟𝗣 𝗖𝗢𝗠𝗠𝗔𝗡𝗗')
     elif query.data == "help":
         buttons = [[
             InlineKeyboardButton('𝙼-𝙵𝙸𝙻𝚃𝙴𝚁', callback_data='manuelfilter'),
@@ -457,7 +457,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('𝙿𝙰𝚂𝚃𝙴', callback_data='pastes'),
             InlineKeyboardButton('𝙵𝚄𝙽', callback_data='fun')
             ],[
-            InlineKeyboardButton('𝙼𝙰𝙼𝙼𝙾𝙺𝙺𝙰', callback_data='ikka'),
+            InlineKeyboardButton('𝙼𝙰𝙼𝙼𝙾𝙺𝙺𝙰', callback_data='mammokka'),
             InlineKeyboardButton('𝚂𝚃𝙸𝙲𝙺𝙴𝚁 𝙸𝙳', callback_data='id')
             ],[
             InlineKeyboardButton('𝙷𝙾𝙼𝙴', callback_data='start'),
@@ -547,7 +547,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
     elif query.data == "id":
         buttons = [[
-            InlineKeyboardButton('𝙱𝙰𝙲𝙺', callback_data='about')
+            InlineKeyboardButton('𝙱𝙰𝙲𝙺', callback_data='help')
         ]]
         reply1 = await query.message.reply_text(
             text="▢▢▢"
@@ -571,7 +571,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode='html'
         )
-    elif query.data == "ikka":
+    elif query.data == "mammokka":
         buttons = [[
             InlineKeyboardButton('𝙱𝙰𝙲𝙺', callback_data='help')
         ]]
