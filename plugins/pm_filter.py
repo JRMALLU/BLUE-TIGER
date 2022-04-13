@@ -479,29 +479,29 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode='html'
         )
-        await query.answer('𝗢𝗣𝗘𝗡 𝗛𝗘𝗟𝗣 𝗖𝗢𝗠𝗠𝗔𝗡𝗗')
+        await query.answer('Privacy is crime')
     elif query.data == "help":
         buttons = [[
-            InlineKeyboardButton('𝙼-𝙵𝙸𝙻𝚃𝙴𝚁', callback_data='manuelfilter'),
-            InlineKeyboardButton('𝙰-𝙵𝙸𝙻𝚃𝙴𝚁', callback_data='autofilter')
+            InlineKeyboardButton('📚𝙼-𝙵𝙸𝙻𝚃𝙴𝚁📚', callback_data='manuelfilter'),
+            InlineKeyboardButton('🤖𝙰-𝙵𝙸𝙻𝚃𝙴𝚁🤖', callback_data='autofilter')
             ],[
-            InlineKeyboardButton('𝙲𝙾𝙽𝙽𝙴𝙲𝚃𝙸𝙾𝙽𝚂', callback_data='coct'),
-            InlineKeyboardButton('𝙴-𝙼𝙾𝙳𝚉', callback_data='extra')
+            InlineKeyboardButton('🔌𝙲𝙾𝙽𝙽𝙴𝙲𝚃🔌', callback_data='coct'),
+            InlineKeyboardButton('💡𝙴-𝙼𝙾𝙳𝚉💡', callback_data='extra')
             ],[
-            InlineKeyboardButton('𝚂𝙾𝙽𝙶', callback_data='songs'),
+            InlineKeyboardButton('🎶𝚂𝙾𝙽𝙶🎶', callback_data='songs'),
             InlineKeyboardButton('𝙲𝙾𝚅𝙸𝙳', callback_data='corona')
             ],[
-            InlineKeyboardButton('𝙿𝚄𝚁𝙶𝙴', callback_data='purges'),
-            InlineKeyboardButton('𝚃𝚃𝚂', callback_data='ttss')
+            InlineKeyboardButton('👹𝙿𝚄𝚁𝙶𝙴👹', callback_data='purges'),
+            InlineKeyboardButton('👻𝚃𝚃𝚂👻', callback_data='ttss')
             ],[
-            InlineKeyboardButton('𝚃𝙴𝙻𝙴𝙶𝚁𝙰𝙿𝙷', callback_data='tele'),
-            InlineKeyboardButton('𝙿𝙸𝙽', callback_data='pin')
+            InlineKeyboardButton('📃𝚃𝙶𝚁𝙰𝙿𝙷📃', callback_data='tele'),
+            InlineKeyboardButton('📌𝙿𝙸𝙽📌', callback_data='pin')
             ],[
-            InlineKeyboardButton('𝙿𝙰𝚂𝚃𝙴', callback_data='pastes'),
-            InlineKeyboardButton('𝙵𝚄𝙽', callback_data='fun')
+            InlineKeyboardButton('✨️𝙿𝙰𝚂𝚃𝙴✨️', callback_data='pastes'),
+            InlineKeyboardButton('🎮𝙶𝙰𝙼𝙴𝚂🎮', callback_data='fun')
             ],[
-            InlineKeyboardButton('𝙼𝙰𝙼𝙼𝙾𝙺𝙺𝙰', callback_data='mammokka'),
-            InlineKeyboardButton('𝚂𝚃𝙸𝙲𝙺𝙴𝚁 𝙸𝙳', callback_data='id')
+            InlineKeyboardButton('🧔𝙼𝙰𝙼𝙼𝙾𝙺𝙺𝙰🧔', callback_data='mammokka'),
+            InlineKeyboardButton('💠𝚂𝚃𝙸𝙲𝙺𝙴𝚁 𝙸𝙳💠', callback_data='id')
             ],[
             InlineKeyboardButton('𝙷𝙾𝙼𝙴', callback_data='start'),
             InlineKeyboardButton('𝚂𝚃𝙰𝚃𝚂', callback_data='stats')
