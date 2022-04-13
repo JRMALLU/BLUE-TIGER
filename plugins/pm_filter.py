@@ -402,6 +402,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         files = files_[0]
         title = files.file_name
         size = get_size(files.file_size)
+        type = files.file_type
         f_caption = files.caption
         settings = await get_settings(query.message.chat.id)
         if CUSTOM_FILE_CAPTION:
@@ -409,6 +410,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 f_caption = CUSTOM_FILE_CAPTION.format(file_name='' if title is None else title,
                                                        file_size='' if size is None else size,
                                                        file_caption='' if f_caption is None else f_caption)
+
+                buttons = [[
+                  InlineKeyboardButton('🔰 Main Group 🔰', url='https://t.me/KC_Films')
+                  ]]                                        
             except Exception as e:
                 logger.exception(e)
             f_caption = f_caption
@@ -423,7 +428,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
                 return
             else:
-                await client.send_cached_media(
+                ms = await client.send_cached_media(
                     chat_id=CH_FILTER,
                     file_id=file_id,
                     caption=f_caption,
