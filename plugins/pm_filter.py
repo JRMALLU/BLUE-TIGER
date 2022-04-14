@@ -460,13 +460,16 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer()
     elif query.data == "start":
         buttons = [[
-            InlineKeyboardButton('➕ Add Me To Your Groups ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
-        ], [
-            InlineKeyboardButton('⚜️ Backup Channel ⚜️', url='https://t.me/+7AyTKA_SqdsyNWNl'),
-            InlineKeyboardButton('🧲 Backup Group 🧲', url='https://t.me/KC_Filmz')
-        ], [
-            InlineKeyboardButton('ℹ️ Help', callback_data='help'),
-            InlineKeyboardButton('😊 About', callback_data='about')
+            InlineKeyboardButton('𝙰𝙳𝙳 𝙼𝙴 𝚃𝙾 𝙰 𝙲𝙷𝙰𝚃 𝙶𝚁𝙾𝚄𝙿', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+            ],[
+            InlineKeyboardButton('𝙷𝙴𝙻𝙿', callback_data='help'),
+            InlineKeyboardButton('𝙰𝙱𝙾𝚄𝚃', callback_data='about')
+            ],[
+            InlineKeyboardButton('𝚂𝙴𝙰𝚁𝙲𝙷', switch_inline_query_current_chat=''),
+            ],[
+            InlineKeyboardButton('𝙿𝚁𝙾𝙼𝙾𝚃𝙸𝙾𝙽', url='https://t.me/KAAVAL_KAARAN_tg'),
+            ],[
+            InlineKeyboardButton('✗ 𝙲𝙻𝙾𝚂𝙴 𝚃𝙷𝙴 𝙼𝙴𝙽𝚄 ✗', callback_data='close_data')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await query.message.edit_text(
@@ -726,22 +729,22 @@ async def auto_filter(client, msg, spoll=False):
              InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]   
         )
         btn.insert(0,
-            [InlineKeyboardButton(text="🔰 Main Group 🔰",url="https://t.me/KC_Films")]
+            [InlineKeyboardButton(text="🔰 Main Group 🔰",url="https://t.me/cine_makotta")]
             )
         btn.insert(0,
-            [InlineKeyboardButton(text="⚜️ Backup Channel ⚜️",url="https://t.me/+7AyTKA_SqdsyNWNl"),
-             InlineKeyboardButton(text="🧲 Backup Group 🧲",url="https://t.me/KC_Filmz")]
+            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="t.me/https://t.me/KAAVAL_KAARAN_tg"),
+             InlineKeyboardButton(text="🧲 Promotion 🧲",url="https://t.me/KC_Filmz")]
         )
     else:
         btn.append(
             [InlineKeyboardButton(text="🗓 1/1", callback_data="pages")]
         )
         btn.insert(0,
-            [InlineKeyboardButton(text="🔰 Main Group 🔰",url="https://t.me/KC_Films")]
+            [InlineKeyboardButton(text="🔰 Main Group 🔰",url="https://t.me/cine_makotta")]
             )
         btn.insert(0,
-            [InlineKeyboardButton(text="⚜️ Backup Channel ⚜️",url="https://t.me/+7AyTKA_SqdsyNWNl"),
-             InlineKeyboardButton(text="🧲 Backup Group 🧲",url="https://t.me/KC_Filmz")]
+            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="t.me/https://t.me/RJMALLU"),
+             InlineKeyboardButton(text="🧲 Promotion 🧲",url="t.me/KAAVAL_KAARAN_tg")]
         )
     imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
     TEMPLATE = settings['template']
