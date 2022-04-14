@@ -732,8 +732,8 @@ async def auto_filter(client, msg, spoll=False):
             [InlineKeyboardButton(text="🔰 Main Group 🔰",url="https://t.me/cine_makotta")]
             )
         btn.insert(0,
-            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="t.me/https://t.me/KAAVAL_KAARAN_tg"),
-             InlineKeyboardButton(text="🧲 Promotion 🧲",url="https://t.me/KC_Filmz")]
+            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="t.me/https://t.me/RJMALLU"),
+             InlineKeyboardButton(text="🧲 Promotion 🧲",url="t.me/KAAVAL_KAARAN_tg")]
         )
     else:
         btn.append(
