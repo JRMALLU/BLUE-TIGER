@@ -5,7 +5,7 @@ import asyncio
 from Script import script
 from pyrogram import Client, filters
 from pyrogram.errors import ChatAdminRequired, FloodWait
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id
 from database.users_chats_db import db
 from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, PROTECT_CONTENT
@@ -14,24 +14,37 @@ from database.connections_mdb import active_connection
 import re
 import json
 import base64
+import pytz
+import datetime
 logger = logging.getLogger(__name__)
 
 BATCH_FILES = {}
 
+ADMIN_ID = set(int(x) for x in os.environ.get("ADMIN_ID", "").split())
+@Client.on_message(filters.private & filters.command(['start']))
+async def start(bot, message):
+    await message.reply_chat_action("playing a game")
+    await message.reply_sticker(
+        sticker="CAACAgUAAxkBAAECF0piLNbfO-DbF5RWSs42nw-ZnPQakQACfgAD56Y5LabCk8KC6v9jHgQ")
 @Client.on_message(filters.command("start") & filters.incoming & ~filters.edited)
 async def start(client, message):
     if message.chat.type in ['group', 'supergroup']:
         buttons = [
             [
-                InlineKeyboardButton('🤖 Updates', url='https://t.me/TeamEvamaria')
+                InlineKeyboardButton('ℹ️ Help', url=f"https://t.me/{temp.U_NAME}?start=help")
             ],
             [
-                InlineKeyboardButton('ℹ️ Help', url=f"https://t.me/{temp.U_NAME}?start=help"),
-            ]
+                InlineKeyboardButton('⚡️ Main Channel ⚡️', url="https://t.me/KCFilmss"),
+                InlineKeyboardButton('🔰 Main Group 🔰', url="https://t.me/KC_Films")
+            ],
+            [
+                InlineKeyboardButton('⚜️ Backup Channel ⚜️', url="https://t.me/+7AyTKA_SqdsyNWNl"),
+                InlineKeyboardButton('🧲 Backup Group 🧲', url="https://t.me/KC_Filmz")
+            ],
             ]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await client.send_sticker(chat_id=message.chat.id, sticker='CAACAgUAAxkBAAJc-GIfWR3hIR_5MRjwkOdkT41wrBcHAAIVAQACyJRkFGZEMKKnFWwTHgQ', reply_markup=reply_markup, reply_to_message_id=message.message_id)
-        await asyncio.sleep(60)
+        await message.reply(script.START_TXT.format(message.from_user.mention if message.from_user else message.chat.title, temp.U_NAME, temp.B_NAME), reply_markup=reply_markup)
+        await asyncio.sleep(2) # 😢 https://github.com/EvamariaTG/EvaMaria/blob/master/plugins/p_ttishow.py#L17 😬 wait a bit, before checking.
         if not await db.get_chat(message.chat.id):
             total=await client.get_chat_members_count(message.chat.id)
             await client.send_message(LOG_CHANNEL, script.LOG_TEXT_G.format(message.chat.title, message.chat.id, total, "Unknown"))       
@@ -41,34 +54,37 @@ async def start(client, message):
         await db.add_user(message.from_user.id, message.from_user.first_name)
         await client.send_message(LOG_CHANNEL, script.LOG_TEXT_P.format(message.from_user.id, message.from_user.mention))
     if len(message.command) != 2:
+        now = datetime.datetime.now()
+        tz = pytz.timezone('asia/kolkata')
+        your_now = now.astimezone(tz)
+        hour = your_now.hour
+        if 0 <= hour <12:
+            get = "Gᴏᴏᴅ ᴍᴏʀɴɪɴɢ"
+        elif 12 <= hour <17:
+            get = 'Gᴏᴏᴅ ᴀꜰᴛᴇʀɴᴏᴏɴ'
+        else:
+            get = 'Gᴏᴏᴅ ᴇᴠᴇɴɪɴɢ'
         buttons = [[
-            InlineKeyboardButton('𝙰𝙳𝙳 𝙼𝙴 𝚃𝙾 𝙰 𝙲𝙷𝙰𝚃 𝙶𝚁𝙾𝚄𝙿', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+            InlineKeyboardButton('➕ Add Me To Your Groups ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
             ],[
-            InlineKeyboardButton('𝙷𝙴𝙻𝙿', callback_data='help'),
-            InlineKeyboardButton('𝙰𝙱𝙾𝚄𝚃', callback_data='about')
+            InlineKeyboardButton('⚜️ Backup Channel ⚜️', url='https://t.me/+7AyTKA_SqdsyNWNl'),
+            InlineKeyboardButton('🧲 Backup Group 🧲', url='https://t.me/KC_Filmz')
             ],[
-            InlineKeyboardButton('𝚂𝙴𝙰𝚁𝙲𝙷', switch_inline_query_current_chat=''),
-            ],[
-            InlineKeyboardButton('𝙿𝚁𝙾𝙼𝙾𝚃𝙸𝙾𝙽', url='https://t.me/KAAVAL_KAARAN_tg'),
-            ],[
-            InlineKeyboardButton('✗ 𝙲𝙻𝙾𝚂𝙴 𝚃𝙷𝙴 𝙼𝙴𝙽𝚄 ✗', callback_data='close_data')
+            InlineKeyboardButton('ℹ️ Help', callback_data='help'),
+            InlineKeyboardButton('😊 About', callback_data='about')        
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_chat_action("typing")
-        m=await message.reply_sticker("CAACAgUAAxkBAAEO6RtiO7D4w8Paf-xsd4NCdvg8efiU1wACFQEAAsiUZBRmRDCipxVsEyME") 
+        h = await message.reply_sticker(
+                sticker= "CAACAgUAAxkBAAECF0piLNbfO-DbF5RWSs42nw-ZnPQakQACfgAD56Y5LabCk8KC6v9jHgQ")
         await asyncio.sleep(2)
-        await m.delete()
+        await h.delete()
         await message.reply_chat_action("typing")
         await message.reply_photo(
             photo=random.choice(PICS),
-            caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
+            caption=script.START_TXT.format(get, message.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
             parse_mode='html'
         )
-        await message.reply_chat_action("Typing")
-        m=await message.reply_sticker("CAACAgUAAxkBAAIPemJSt9Hda8BipEhN6p1e7E7Q3owbAAL4AgACiCKIV324dA3-4v0kHgQ") 
-        await asyncio.sleep(1)
-        await m.delete()
         return
     if AUTH_CHANNEL and not await is_subscribed(client, message):
         try:
@@ -79,39 +95,39 @@ async def start(client, message):
         btn = [
             [
                 InlineKeyboardButton(
-                    "✨️𝙹𝙾𝙸𝙽 𝙼𝚈 𝙲𝙷𝙰𝙽𝙽𝙴𝙻👈", url=invite_link.invite_link
+                    "🤖 Join Main Channel", url=invite_link.invite_link
                 )
             ]
         ]
 
         if message.command[1] != "subscribe":
-            kk, file_id = message.command[1].split("_", 1)
-            pre = 'checksubp' if kk == 'filep' else 'checksub' 
-            btn.append([InlineKeyboardButton("👉𝙶𝙴𝚃 𝙵𝙸𝙻𝙴📁", callback_data=f"{pre}#{file_id}")])
+            try:
+                kk, file_id = message.command[1].split("_", 1)
+                pre = 'checksubp' if kk == 'filep' else 'checksub' 
+                btn.append([InlineKeyboardButton(" 🔄 Try Again", callback_data=f"{pre}#{file_id}")])
+            except IndexError:
+                btn.append([InlineKeyboardButton(" 🔄 Try Again", url=f"https://t.me/{temp.U_NAME}/{message.command[1]}")])
         await client.send_message(
-            chat_id=message.from_user.id,
-            text="**Please Join My Updates Channel to use this Bot!**",
+           chat_id=message.from_user.id,
+            text="**Please Join Main Updates Channel to use this Bot!**",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode="markdown"
             )
         return
     if len(message.command) == 2 and message.command[1] in ["subscribe", "error", "okay", "help"]:
         buttons = [[
-            InlineKeyboardButton('𝙰𝙳𝙳 𝙼𝙴 𝚃𝙾 𝙰 𝙲𝙷𝙰𝚃 𝙶𝚁𝙾𝚄𝙿', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+            InlineKeyboardButton('➕ Add Me To Your Groups ➕', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
             ],[
-            InlineKeyboardButton('𝙷𝙴𝙻𝙿', callback_data='help'),
-            InlineKeyboardButton('𝙰𝙱𝙾𝚄𝚃', callback_data='about')
+            InlineKeyboardButton('⚜️ Backup Channel ⚜️', url='https://t.me/+7AyTKA_SqdsyNWNl'),
+            InlineKeyboardButton('🧲 Backup Group 🧲', url='https://t.me/KC_Filmz')
             ],[
-            InlineKeyboardButton('𝚂𝙴𝙰𝚁𝙲𝙷', switch_inline_query_current_chat=''),
-            ],[
-            InlineKeyboardButton('𝙿𝚁𝙾𝙼𝙾𝚃𝙸𝙾𝙽', url='https://t.me/KAAVAL_KAARAN_tg'),
-            ],[
-            InlineKeyboardButton('✗ 𝙲𝙻𝙾𝚂𝙴 𝚃𝙷𝙴 𝙼𝙴𝙽𝚄 ✗', callback_data='close_data')
+            InlineKeyboardButton('ℹ️ Help', callback_data='help'),
+            InlineKeyboardButton('😊 About', callback_data='about')               
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
             photo=random.choice(PICS),
-            caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
+            caption=script.START_TXT.format(get, message.from_user.mention, temp.U_NAME, temp.B_NAME),
             reply_markup=reply_markup,
             parse_mode='html'
         )
@@ -234,7 +250,7 @@ async def start(client, message):
                 try:
                     f_caption=CUSTOM_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='')
                 except:
-                    return
+                    return 
             await msg.edit_caption(f_caption)
             return
         except:
@@ -258,7 +274,81 @@ async def start(client, message):
         caption=f_caption,
         protect_content=True if pre == 'filep' else False,
         )
-                    
+@Client.on_message((filters.command(["report"]) | filters.regex("@admins") | filters.regex("@admin")) & filters.group)
+async def report(bot, message):
+    if message.reply_to_message:
+        chat_id = message.chat.id
+        reporter = str(message.from_user.id) 
+        mention = message.from_user.mention
+        admins = await bot.get_chat_members(chat_id=chat_id, filter="administrators")
+        success = True
+        report = f"𝖱𝖾𝗉𝗈𝗋𝗍𝖾𝗋 : {mention} ({reporter})" + "\n"
+        report += f"𝖬𝖾𝗌𝗌𝖺𝗀𝖾 : {message.reply_to_message.link}"
+        for admin in admins:
+            try:
+                reported_post = await message.reply_to_message.forward(admin.user.id)
+                await reported_post.reply_text(
+                    text=report,
+                    chat_id=admin.user.id,
+                    disable_web_page_preview=True
+                )
+                success = True
+            except:
+                pass
+        if success:
+            await message.reply_text("✅ Your Report Successfully Submitted to the Admins")
+
+
+
+@Client.on_message(filters.command("bot"))
+async def bot(bot, message):
+    buttons = [[
+        InlineKeyboardButton("ᴅɪᴅɴ'ᴛ ɢᴇᴛ ᴍᴏᴠɪᴇ", callback_data="getmovie"),
+        InlineKeyboardButton("ʜᴏᴡ ᴛᴏ ꜱᴇᴀʀᴄʜ ꜰɪʟᴇ", callback_data="searchfile")
+        ],[
+        InlineKeyboardButton("ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅꜱ", callback_data="commands"),
+        InlineKeyboardButton("ᴇɴqᴜɪʀy", callback_data="enqury")
+        ],[
+        InlineKeyboardButton("🔰 Main Group 🔰", url='https://t.me/KC_Films')
+    ]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await message.reply_chat_action("typing")
+    h=await message.reply_photo(
+        photo=random.choice(PICS),
+        caption=script.BOT_TXT.format(message.from_user.mention),
+        reply_markup=reply_markup,
+        parse_mode="html")
+    await asyncio.sleep(50)
+    await h.delete()
+  
+@Client.on_message(filters.command("update"))
+async def update(bot, message):
+    buttons = [[
+        InlineKeyboardButton("⚡️ Main Channel ⚡️", url='t.me/KCFilmss')       
+        ],[
+        InlineKeyboardButton("🔰 Main Group 🔰", url='t.me/KC_Films')
+    ]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await message.reply_chat_action("typing")
+    await message.reply_photo(
+        photo="https://te.legra.ph/file/f58032b4b41f5335e0a33.jpg",
+        caption=script.UPDATE_CMD.format(message.from_user.mention),
+        reply_markup=reply_markup,
+        parse_mode="html")
+    
+@Client.on_message(filters.command("cmd"))
+async def cmd(bot, message):
+    buttons = [[
+        InlineKeyboardButton("⚡️ Main Channel ⚡️", url='t.me/KCFilmss')       
+        ],[
+        InlineKeyboardButton("🔰 Main Group 🔰", url='t.me/KC_Films')
+    ]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await message.reply_photo(
+        photo="https://te.legra.ph/file/f58032b4b41f5335e0a33.jpg",
+        caption=script.START_TXT.format(message.from_user.mention),
+        reply_markup=reply_markup,
+        parse_mode="html")
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
@@ -355,12 +445,12 @@ async def delete_all_index(bot, message):
             [
                 [
                     InlineKeyboardButton(
-                        text="YES", callback_data="autofilter_delete"
+                        text="✓ Yes", callback_data="autofilter_delete"
                     )
                 ],
                 [
                     InlineKeyboardButton(
-                        text="CANCEL", callback_data="close_data"
+                        text="Cancel ✗", callback_data="close_data"
                     )
                 ],
             ]
@@ -374,6 +464,30 @@ async def delete_all_index_confirm(bot, message):
     await Media.collection.drop()
     await message.answer('Piracy Is Crime')
     await message.message.edit('Succesfully Deleted All The Indexed Files.')
+
+
+@Client.on_message(filters.command('total') & filters.user(ADMINS))
+async def total(bot, message):
+    """Show total files in database"""
+    msg = await message.reply("Processing...⏳", quote=True)
+    try:
+        total = await Media.count_documents()
+        await msg.edit(f'📁 Saved files: {total}')
+    except Exception as e:
+        logger.exception('Failed to check total files')
+        await msg.edit(f'Error: {e}')
+
+
+@Client.on_message(filters.private & filters.command("stats"))
+async def sts(c, m):
+    if m.from_user.id not in ADMIN_ID:
+        await m.delete()
+        return
+    await m.reply_text(
+        text=f"**Total Users in Database 📂:** `{await db.total_users_count()}`\n\n**Total Users with Notification Enabled 🔔 :** `{await db.total_notif_users_count()}`",
+        parse_mode="Markdown",
+        quote=True
+    )
 
 
 @Client.on_message(filters.command('settings'))
@@ -487,9 +601,7 @@ async def settings(client, message):
             parse_mode="html",
             reply_to_message_id=message.message_id
         )
-
-
-
+    
 @Client.on_message(filters.command('set_template'))
 async def save_template(client, message):
     sts = await message.reply("Checking template")
