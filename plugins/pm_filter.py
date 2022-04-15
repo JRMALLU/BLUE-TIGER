@@ -73,7 +73,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"📂 [{get_size(file.file_size)}]{file.file_name}", callback_data=f'files#{file.file_id}'
+                    text=f"💭{get_size(file.file_size)}📂{file.file_name}", callback_data=f'files#{file.file_id}'
                 ),
             ]
             for file in files
@@ -85,7 +85,7 @@ async def next_page(bot, query):
                     text=f"📂 {file.file_name}", callback_data=f'files#{file.file_id}'
                 ),
                 InlineKeyboardButton(
-                    text=f"📂 {get_size(file.file_size)}",
+                    text=f"💭 {get_size(file.file_size)}",
                     callback_data=f'files_#{file.file_id}',
                 ),
             ]
@@ -480,7 +480,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await query.answer('Piracy Is Crime')
     elif query.data == "help":
         buttons = [[
-            InlineKeyboardButton('Manual Filter', callback_data='manuelfilter'),
+            InlineKeyboardButton('𝙼𝙰𝙽𝙰𝚄𝙻', callback_data='manuelfilter'),
             InlineKeyboardButton('Auto Filter', callback_data='autofilter')
         ], [
             InlineKeyboardButton('Connection', callback_data='coct'),
@@ -699,7 +699,7 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"📂 [{get_size(file.file_size)}] {file.file_name}", callback_data=f'{pre}#{file.file_id}'
+                    text=f"💭{get_size(file.file_size)}📂{file.file_name}", callback_data=f'{pre}#{file.file_id}'
                 ),
             ]
             for file in files
@@ -712,7 +712,7 @@ async def auto_filter(client, msg, spoll=False):
                     callback_data=f'{pre}#{file.file_id}',
                 ),
                 InlineKeyboardButton(
-                    text=f"📂 {get_size(file.file_size)}",
+                    text=f"💭 {get_size(file.file_size)}",
                     callback_data=f'{pre}_#{file.file_id}',
                 ),
             ]
@@ -732,7 +732,7 @@ async def auto_filter(client, msg, spoll=False):
             [InlineKeyboardButton(text="🔰 Main Group 🔰",url="https://t.me/cine_makotta")]
             )
         btn.insert(0,
-            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="t.me/https://t.me/RJMALLU"),
+            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="https://t.me/RJMALLU"),
              InlineKeyboardButton(text="🧲 Promotion 🧲",url="t.me/KAAVAL_KAARAN_tg")]
         )
     else:
@@ -743,7 +743,7 @@ async def auto_filter(client, msg, spoll=False):
             [InlineKeyboardButton(text="🔰 Main Group 🔰",url="https://t.me/cine_makotta")]
             )
         btn.insert(0,
-            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="t.me/https://t.me/RJMALLU"),
+            [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="https://t.me/RJMALLU"),
              InlineKeyboardButton(text="🧲 Promotion 🧲",url="t.me/KAAVAL_KAARAN_tg")]
         )
     imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
