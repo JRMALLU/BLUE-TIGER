@@ -1,7 +1,7 @@
 class script(object):
     START_TXT = """👋 𝙷𝙴𝙻𝙾 {}
 
-⎆ 𝙼𝚈 𝙽𝙰𝙼𝙴 𝙸𝚂 <a href=https://t.me/{}>{}</a>
+⎆ 𝙼𝚈 𝙽𝙰𝙼𝙴 𝙸𝚂 {}
 
 🕵️ 𝙸 𝙲𝙰𝙽 𝙿𝚁𝙾𝚅𝙸𝙳𝙴 𝙼𝙾𝚅𝙸𝙴𝚂,
 
