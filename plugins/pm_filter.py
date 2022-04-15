@@ -73,7 +73,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"💭{get_size(file.file_size)}📂{file.file_name}", callback_data=f'files#{file.file_id}'
+                    text=f"📂{get_size(file.file_size)}{file.file_name}", callback_data=f'files#{file.file_id}'
                 ),
             ]
             for file in files
@@ -85,7 +85,7 @@ async def next_page(bot, query):
                     text=f"📂 {file.file_name}", callback_data=f'files#{file.file_id}'
                 ),
                 InlineKeyboardButton(
-                    text=f"💭 {get_size(file.file_size)}",
+                    text=f"📂 {get_size(file.file_size)}",
                     callback_data=f'files_#{file.file_id}',
                 ),
             ]
@@ -699,7 +699,7 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"💭{get_size(file.file_size)}📂{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+                    text=f"📂{get_size(file.file_size)}{file.file_name}", callback_data=f'{pre}#{file.file_id}'
                 ),
             ]
             for file in files
@@ -712,7 +712,7 @@ async def auto_filter(client, msg, spoll=False):
                     callback_data=f'{pre}#{file.file_id}',
                 ),
                 InlineKeyboardButton(
-                    text=f"💭 {get_size(file.file_size)}",
+                    text=f"📂 {get_size(file.file_size)}",
                     callback_data=f'{pre}_#{file.file_id}',
                 ),
             ]
@@ -733,7 +733,7 @@ async def auto_filter(client, msg, spoll=False):
             )
         btn.insert(0,
             [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="https://t.me/RJMALLU"),
-             InlineKeyboardButton(text="🧲 Promotion 🧲",url="t.me/KAAVAL_KAARAN_tg")]
+             InlineKeyboardButton(text="🧲 Promotion 🧲",url="https://t.me/KAAVAL_KAARAN_tg")]
         )
     else:
         btn.append(
@@ -744,7 +744,7 @@ async def auto_filter(client, msg, spoll=False):
             )
         btn.insert(0,
             [InlineKeyboardButton(text="⚜️ Owner ⚜️",url="https://t.me/RJMALLU"),
-             InlineKeyboardButton(text="🧲 Promotion 🧲",url="t.me/KAAVAL_KAARAN_tg")]
+             InlineKeyboardButton(text="🧲 Promotion 🧲",url="https://t.me/KAAVAL_KAARAN_tg")]
         )
     imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
     TEMPLATE = settings['template']
